@@ -604,9 +604,7 @@ animation:cargarBarra 3s linear forwards;
 XV Diana
 </h1>
 
-<p class="loader-texto">
-Preparando tu invitación...
-</p>
+<p class="loader-texto" id="porcentaje">Cargando... 0%</p>
 
 <div class="barra">
 <div class="progreso"></div>
@@ -1171,39 +1169,49 @@ window.addEventListener("load", () => {
   document.documentElement.classList.add("loaded");
 
   const pantalla = document.getElementById("pantallaCarga");
+  const porcentaje = document.getElementById("porcentaje");
   const images = document.images;
   let loaded = 0;
+  const total = images.length || 1;
+
+  function actualizar() {
+    const progreso = Math.round((loaded / total) * 100);
+    porcentaje.textContent = `Cargando... ${progreso}%`;
+  }
 
   function check() {
     loaded++;
-    if (loaded >= images.length) {
+    actualizar();
+
+    if (loaded >= total) {
       finishLoading();
     }
   }
 
   function finishLoading() {
     setTimeout(() => {
+      porcentaje.textContent = "Listo";
       pantalla.style.opacity = "0";
+
       setTimeout(() => {
         pantalla.style.display = "none";
       }, 600);
     }, 500);
   }
 
-  if (images.length === 0) {
-    finishLoading();
-  } else {
-    for (let i = 0; i < images.length; i++) {
-      if (images[i].complete) {
-        check();
-      } else {
-        images[i].addEventListener("load", check);
-        images[i].addEventListener("error", check);
-      }
+  for (let i = 0; i < images.length; i++) {
+    if (images[i].complete) {
+      check();
+    } else {
+      images[i].addEventListener("load", check);
+      images[i].addEventListener("error", check);
     }
   }
-});
 
+  if (images.length === 0) {
+    finishLoading();
+  }
+});
 </script>
 
 </body>
