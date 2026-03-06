@@ -1111,7 +1111,7 @@ function drawParticles(){
 }
 drawParticles();
 
-// ================= PROGRESO DE CARGA =================
+// ================= PROGRESO DE CARGA CORREGIDO =================
 const imagenes = document.images;
 const total = imagenes.length;
 let cargadas = 0;
@@ -1119,6 +1119,7 @@ let cargadas = 0;
 const barra = document.getElementById("barraProgreso");
 const porcentaje = document.getElementById("porcentaje");
 const preloader = document.getElementById("preloader");
+const btnIniciar = document.getElementById("btnIniciar");
 
 function actualizarProgreso(){
   cargadas++;
@@ -1126,11 +1127,13 @@ function actualizarProgreso(){
   barra.style.width = pct + "%";
   porcentaje.innerText = pct + "%";
 
-  if(cargadas === total){
-  btnIniciar.style.display = "block"; // Muestra botón al terminar de cargar
-  porcentaje.innerText = "Listo!";
+  if(cargadas >= total){
+    porcentaje.innerText = "Listo!";
+    btnIniciar.style.display = "block";
+  }
 }
 
+// Recorre las imágenes y agrega listener correctamente
 for(let i=0;i<total;i++){
   if(imagenes[i].complete){
     actualizarProgreso();
