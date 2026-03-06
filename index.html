@@ -494,7 +494,7 @@ animation:brilloTexto 4s linear infinite;
 100%{background-position:300%}
 }
 
-/* PANTALLA DE CARGA */
+/* PANTALLA CARGA PREMIUM */
 
 #pantallaCarga{
 position:fixed;
@@ -502,36 +502,65 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:linear-gradient(160deg,#000,#1a1a1a);
+background:radial-gradient(circle,#000,#050505,#000);
 display:flex;
 align-items:flex-start;
 justify-content:center;
 padding-top:120px;
 z-index:99999;
+overflow:hidden;
 }
+
+/* CANVAS PARTICULAS */
+
+#loaderParticulas{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+}
+
+/* CONTENIDO */
 
 .loader-contenido{
 text-align:center;
-color:white;
+z-index:5;
 }
 
-.loader-logo{
-font-size:60px;
-margin-bottom:20px;
-animation:latidoLoader 2s infinite;
+/* NOMBRE */
+
+.loader-nombre{
+font-family:'Great Vibes',cursive;
+font-size:48px;
+color:#d4af37;
+
+text-shadow:
+0 0 10px rgba(212,175,55,0.8),
+0 0 20px rgba(212,175,55,0.7),
+0 0 40px rgba(212,175,55,0.6);
+
+animation:brilloNombre 3s infinite;
 }
+
+/* TEXTO */
 
 .loader-texto{
-font-size:20px;
+color:white;
+margin-top:10px;
 margin-bottom:20px;
+font-size:16px;
 }
+
+/* BARRA */
 
 .barra{
 width:220px;
 height:10px;
-background:#333;
+background:#222;
 border-radius:20px;
 overflow:hidden;
+margin:auto;
 }
 
 .progreso{
@@ -546,33 +575,36 @@ animation:cargarBarra 3s linear forwards;
 100%{width:100%}
 }
 
-@keyframes latidoLoader{
-0%{transform:scale(1)}
-50%{transform:scale(1.1)}
-100%{transform:scale(1)}
+@keyframes brilloNombre{
+0%{opacity:.6}
+50%{opacity:1}
+100%{opacity:.6}
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- PANTALLA DE CARGA -->
+<!-- PANTALLA DE CARGA PREMIUM -->
 <div id="pantallaCarga">
 
-  <div class="loader-contenido">
+<canvas id="loaderParticulas"></canvas>
 
-    <div class="loader-logo">✨</div>
+<div class="loader-contenido">
 
-    <h2 class="loader-texto">
-      Cargando invitación...
-    </h2>
+<h1 class="loader-nombre">
+XV Lupita
+</h1>
 
-    <div class="barra">
-      <div class="progreso" id="barraProgreso"></div>
-    </div>
+<p class="loader-texto">
+Preparando tu invitación...
+</p>
 
-  </div>
+<div class="barra">
+<div class="progreso"></div>
+</div>
+
+</div>
 
 </div>
 
@@ -1080,6 +1112,61 @@ pantalla.style.display="none";
 },2500);
 
 });
+
+</script>
+
+<script>
+
+/* PARTICULAS LOADER */
+
+const canvasLoader = document.getElementById("loaderParticulas");
+const ctxLoader = canvasLoader.getContext("2d");
+
+function resizeLoader(){
+canvasLoader.width = window.innerWidth;
+canvasLoader.height = window.innerHeight;
+}
+
+resizeLoader();
+window.addEventListener("resize", resizeLoader);
+
+let particulasLoader=[];
+
+for(let i=0;i<60;i++){
+particulasLoader.push({
+x:Math.random()*canvasLoader.width,
+y:Math.random()*canvasLoader.height,
+dx:(Math.random()-.5)*1,
+dy:(Math.random()-.5)*1,
+r:Math.random()*2+1,
+a:Math.random()
+});
+}
+
+function animarLoader(){
+
+ctxLoader.clearRect(0,0,canvasLoader.width,canvasLoader.height);
+
+particulasLoader.forEach(p=>{
+
+ctxLoader.beginPath();
+ctxLoader.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctxLoader.fillStyle=`rgba(255,215,0,${p.a})`;
+ctxLoader.fill();
+
+p.x+=p.dx;
+p.y+=p.dy;
+
+if(p.x<0||p.x>canvasLoader.width)p.dx*=-1;
+if(p.y<0||p.y>canvasLoader.height)p.dy*=-1;
+
+});
+
+requestAnimationFrame(animarLoader);
+
+}
+
+animarLoader();
 
 </script>
 
