@@ -419,12 +419,12 @@ border-radius:5px;
 
 .popup-pass{
 display:none;
+position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
 background:rgba(0,0,0,0.7);
-display:flex;
 align-items:center;
 justify-content:center;
 z-index:9999;
@@ -829,19 +829,7 @@ function toggleDatos(){
 
 // contraseña descarga fotos
 document.getElementById("btnDescargar").addEventListener("click",()=>{
-
-const pass = prompt("Ingresa la contraseña");
-
-if(pass && pass.trim() === "xv2026"){
-
-window.open("https://www.dropbox.com/scl/fo/lx2ieq96b7l40mcm6id88/AFyt2tGbV0OTUNauFolNGP0?rlkey=4krboyxfuo8kdbr2bawyn2g5d&st=sa8o2sm4&dl=0");
-
-}else{
-
-document.getElementById("mensajeErrorPass").style.display="block";
-
-}
-
+document.getElementById("popupPassword").style.display="flex";
 });
 
 
@@ -896,11 +884,10 @@ const qrUpload = document.getElementById("qrUpload");
 
 if(qrUpload){
 const qrFotos = new QRious({
+  element: qrUpload,
   value: "https://www.dropbox.com/request/Vc7syKzS8YHIieil8pnJ",
   size: 180
 });
-
-qrUpload.src = qrFotos.toDataURL();
 }
 
 
@@ -909,23 +896,29 @@ const btnQR = document.getElementById("btnQR");
 const contQR = document.getElementById("contenedorQR");
 const imgQR = document.getElementById("imagenQR");
 
+const btnQR = document.getElementById("btnQR");
+const contQR = document.getElementById("contenedorQR");
+const imgQR = document.getElementById("imagenQR");
+
 if(btnQR){
+
 btnQR.addEventListener("click", () => {
+
+const urlInvitacion = window.location.href;
+
+const qr = new QRious({
+  value: urlInvitacion,
+  size: 180
 });
+
+imgQR.src = qr.toDataURL();
+
+contQR.style.display =
+contQR.style.display === "none" ? "block" : "none";
+
+});
+
 }
-  const urlInvitacion = window.location.href;
-
-  const qr = new QRious({
-    value: urlInvitacion,
-    size: 180
-  });
-
-  imgQR.src = qr.toDataURL();
-
-  contQR.style.display =
-    contQR.style.display === "none" ? "block" : "none";
-
-});
 
 
 // Calendario
@@ -951,15 +944,19 @@ function verificarPassword(){
 
 const pass = document.getElementById("inputPassword").value;
 
-if(pass === "1234"){ // tu contraseña
+if(pass === "xv2026"){
+
+window.open("https://www.dropbox.com/scl/fo/lx2ieq96b7l40mcm6id88/AFyt2tGbV0OTUNauFolNGP0?rlkey=4krboyxfuo8kdbr2bawyn2g5d&st=sa8o2sm4&dl=0");
+
 document.getElementById("popupPassword").style.display="none";
-}
-else{
-document.getElementById("mensajeError").style.display="block";
-}
+
+}else{
+
+document.getElementById("mensajeErrorPass").style.display="block";
 
 }
 
+}
 function cerrarPassword(){
 document.getElementById("popupPassword").style.display="none";
 }
