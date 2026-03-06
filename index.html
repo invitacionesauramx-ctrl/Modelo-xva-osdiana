@@ -387,6 +387,36 @@ canvas{
   z-index:5;
 }
 
+.popup-error{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
+
+.popup-contenido{
+background:white;
+padding:20px;
+border-radius:10px;
+text-align:center;
+font-size:18px;
+}
+
+.popup-contenido button{
+margin-top:10px;
+padding:8px 20px;
+border:none;
+background:#c9a227;
+color:white;
+border-radius:5px;
+}
+
 </style>
 </head>
 
@@ -543,6 +573,13 @@ Solo familia / quinceañera
 Descargar fotos
 </button>
 
+</div>
+
+<div id="mensajeError" class="popup-error">
+  <div class="popup-contenido">
+    <p>Contraseña incorrecta</p>
+    <button onclick="cerrarPopup()">Aceptar</button>
+  </div>
 </div>
 
 </div>
@@ -727,11 +764,16 @@ window.open("https://www.dropbox.com/scl/fo/lx2ieq96b7l40mcm6id88/AFyt2tGbV0OTUN
 
 }else{
 
-alert("Contraseña incorrecta");
+document.getElementById("mensajeError").style.display="flex";
 
 }
 
 });
+
+
+function cerrarPopup(){
+document.getElementById("mensajeError").style.display="none";
+}
 
 </script>
 
@@ -778,12 +820,14 @@ document.getElementById("formConfirmacion").addEventListener("submit", async (e)
 
 const qrUpload = document.getElementById("qrUpload");
 
+if(qrUpload){
 const qrFotos = new QRious({
   value: "https://www.dropbox.com/request/Vc7syKzS8YHIieil8pnJ",
   size: 180
 });
 
 qrUpload.src = qrFotos.toDataURL();
+}
 
 
 // QR invitación
