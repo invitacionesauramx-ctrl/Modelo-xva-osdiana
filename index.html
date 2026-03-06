@@ -418,7 +418,7 @@ border-radius:5px;
 }
 
 .popup-pass{
-position:fixed;
+display:none;
 top:0;
 left:0;
 width:100%;
@@ -480,7 +480,7 @@ margin-top:10px;
 <div class="contenedor">
 
 <div class="bloque bloque-particulas bloque-fecha">
-  <img src="bloque1.webp">
+<img src="bloque1.webp" loading="lazy">
 
   <div class="fecha-evento">
     24 diciembre 2026
@@ -633,7 +633,7 @@ Descargar fotos
 <div id="mensajeError" class="popup-error">
   <div class="popup-contenido">
     <p>Contraseña incorrecta</p>
-    <button onclick="cerrarPopup()">Aceptar</button>
+    <button onclick="cerrarError()">Aceptar</button>
   </div>
 </div>
 
@@ -650,7 +650,7 @@ Descargar fotos
       <button onclick="cerrarPopup()">Cancelar</button>
     </div>
 
-    <p id="mensajeError">Contraseña incorrecta</p>
+    <p id="mensajeErrorPass">Contraseña incorrecta</p>
 
   </div>
 </div>
@@ -838,14 +838,14 @@ window.open("https://www.dropbox.com/scl/fo/lx2ieq96b7l40mcm6id88/AFyt2tGbV0OTUN
 
 }else{
 
-document.getElementById("mensajeError").style.display="flex";
+document.getElementById("mensajeErrorPass").style.display="block";
 
 }
 
 });
 
 
-function cerrarPopup(){
+function cerrarError(){
 document.getElementById("mensajeError").style.display="none";
 }
 
@@ -909,8 +909,10 @@ const btnQR = document.getElementById("btnQR");
 const contQR = document.getElementById("contenedorQR");
 const imgQR = document.getElementById("imagenQR");
 
+if(btnQR){
 btnQR.addEventListener("click", () => {
-
+});
+}
   const urlInvitacion = window.location.href;
 
   const qr = new QRious({
@@ -958,7 +960,7 @@ document.getElementById("mensajeError").style.display="block";
 
 }
 
-function cerrarPopup(){
+function cerrarPassword(){
 document.getElementById("popupPassword").style.display="none";
 }
 
