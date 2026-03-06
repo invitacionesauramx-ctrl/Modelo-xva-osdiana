@@ -592,9 +592,7 @@ animation:cargarBarra 3s linear forwards;
 
 <div class="loader-contenido">
 
-<h1 class="loader-nombre">
-XV Diana
-</h1>
+<h1 class="loader-nombre">Diana</h1>
 
 <p class="loader-texto">
 Preparando tu invitación...
@@ -1117,56 +1115,100 @@ pantalla.style.display="none";
 
 <script>
 
-/* PARTICULAS LOADER */
+const canvas = document.getElementById("loaderParticulas");
+const ctx = canvas.getContext("2d");
 
-const canvasLoader = document.getElementById("loaderParticulas");
-const ctxLoader = canvasLoader.getContext("2d");
-
-function resizeLoader(){
-canvasLoader.width = window.innerWidth;
-canvasLoader.height = window.innerHeight;
+function resizeCanvas(){
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 }
 
-resizeLoader();
-window.addEventListener("resize", resizeLoader);
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
-let particulasLoader=[];
+const texto = "Diana";
 
-for(let i=0;i<60;i++){
-particulasLoader.push({
-x:Math.random()*canvasLoader.width,
-y:Math.random()*canvasLoader.height,
-dx:(Math.random()-.5)*1,
-dy:(Math.random()-.5)*1,
-r:Math.random()*2+1,
-a:Math.random()
+let particulas = [];
+
+/* Dibujar texto invisible */
+
+ctx.font = "bold 120px Great Vibes";
+ctx.fillStyle = "white";
+ctx.textAlign = "center";
+
+ctx.fillText(texto, canvas.width/2, 200);
+
+const data = ctx.getImageData(0,0,canvas.width,canvas.height);
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+/* Crear partículas */
+
+for(let y=0;y<data.height;y+=4){
+for(let x=0;x<data.width;x+=4){
+
+const index = (y * data.width + x) * 4;
+
+if(data.data[index + 3] > 128){
+
+particulas.push({
+x: Math.random()*canvas.width,
+y: Math.random()*canvas.height,
+destX: x,
+destY: y,
+r: 1.8
 });
+
 }
 
-function animarLoader(){
+}
+}
 
-ctxLoader.clearRect(0,0,canvasLoader.width,canvasLoader.height);
+/* Animación */
 
-particulasLoader.forEach(p=>{
+function animar(){
 
-ctxLoader.beginPath();
-ctxLoader.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctxLoader.fillStyle=`rgba(255,215,0,${p.a})`;
-ctxLoader.fill();
+ctx.clearRect(0,0,canvas.width,canvas.height);
 
-p.x+=p.dx;
-p.y+=p.dy;
+particulas.forEach(p=>{
 
-if(p.x<0||p.x>canvasLoader.width)p.dx*=-1;
-if(p.y<0||p.y>canvasLoader.height)p.dy*=-1;
+p.x += (p.destX - p.x) * 0.05;
+p.y += (p.destY - p.y) * 0.05;
+
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fillStyle="gold";
+ctx.fill();
 
 });
 
-requestAnimationFrame(animarLoader);
+requestAnimationFrame(animar);
 
 }
 
-animarLoader();
+animar();
+
+</script>
+/* CERRAR PANTALLA DE CARGA */
+
+window.addEventListener("load", () => {
+
+setTimeout(()=>{
+
+const loader = document.getElementById("pantallaCarga");
+
+loader.style.transition="opacity 1s";
+loader.style.opacity="0";
+
+setTimeout(()=>{
+loader.style.display="none";
+},1000);
+
+},3000);
+
+});
+
+</script>
 
 </script>
 
