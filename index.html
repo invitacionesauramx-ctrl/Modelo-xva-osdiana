@@ -472,6 +472,28 @@ display:none;
 margin-top:10px;
 }
 
+.texto-descarga{
+font-size:14px;
+font-weight:600;
+background:linear-gradient(
+90deg,
+#caa94d,
+#ffd700,
+#fff4b0,
+#ffd700,
+#caa94d
+);
+background-size:300%;
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+animation:brilloTexto 4s linear infinite;
+}
+
+@keyframes brilloTexto{
+0%{background-position:0%}
+100%{background-position:300%}
+}
+
 </style>
 </head>
 
@@ -620,8 +642,12 @@ Escanea el QR para subir tus fotos del evento
 Fotos oficiales
 </h2>
 
-<p style="margin-bottom:15px;">
-Solo familia / quinceañera
+<p style="margin-bottom:5px;">
+Solo familiares y quinceañera
+</p>
+
+<p class="texto-descarga">
+🔒 Descarga de fotos con contraseña (solicitar a la quinceañera)
 </p>
 
 <button id="btnDescargar">
