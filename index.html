@@ -7,6 +7,12 @@
 <title>Invitación Digital</title>
 
 <style>
+
+html:not(.loaded) body {
+  opacity: 0;
+  visibility: hidden;
+}
+
 *{
   margin:0;
   padding:0;
@@ -1174,6 +1180,10 @@ requestAnimationFrame(animarLoader);
 }
 
 animarLoader();
+
+window.addEventListener("load", () => {
+  document.documentElement.classList.add("loaded");
+});
 
 </script>
 
