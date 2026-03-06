@@ -1210,6 +1210,106 @@ loader.style.display="none";
 
 </script>
 
+<script>
+
+const canvasLoader = document.getElementById("loaderParticulas");
+const ctxLoader = canvasLoader.getContext("2d");
+
+function resizeLoader(){
+  canvasLoader.width = window.innerWidth;
+  canvasLoader.height = window.innerHeight;
+}
+
+resizeLoader();
+window.addEventListener("resize", resizeLoader);
+
+const textoLoader = "Diana";
+
+let particulasLoader = [];
+
+/* dibujar texto invisible */
+ctxLoader.font = "bold 120px Great Vibes";
+ctxLoader.fillStyle = "white";
+ctxLoader.textAlign = "center";
+ctxLoader.fillText(textoLoader, canvasLoader.width/2, 180);
+
+const dataLoader = ctxLoader.getImageData(
+0,
+0,
+canvasLoader.width,
+canvasLoader.height
+);
+
+ctxLoader.clearRect(
+0,
+0,
+canvasLoader.width,
+canvasLoader.height
+);
+
+/* crear partículas */
+for(let y=0;y<dataLoader.height;y+=5){
+for(let x=0;x<dataLoader.width;x+=5){
+
+const index = (y * dataLoader.width + x) * 4;
+
+if(dataLoader.data[index + 3] > 128){
+
+particulasLoader.push({
+x: Math.random()*canvasLoader.width,
+y: Math.random()*canvasLoader.height,
+destX: x,
+destY: y,
+r: 2
+});
+
+}
+
+}
+}
+
+/* animación */
+function animarLoader(){
+
+ctxLoader.clearRect(
+0,
+0,
+canvasLoader.width,
+canvasLoader.height
+);
+
+particulasLoader.forEach(p=>{
+
+p.x += (p.destX - p.x) * 0.05;
+p.y += (p.destY - p.y) * 0.05;
+
+ctxLoader.beginPath();
+ctxLoader.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctxLoader.fillStyle="gold";
+ctxLoader.fill();
+
+});
+
+requestAnimationFrame(animarLoader);
+
+}
+
+animarLoader();
+
+</script>
+
+<script>
+
+window.addEventListener("load",()=>{
+
+setTimeout(()=>{
+document.getElementById("pantallaCarga").style.display="none";
+},3500);
+
+});
+
+</script>
+
 </script>
 
 </body>
