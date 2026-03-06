@@ -1170,8 +1170,9 @@ window.addEventListener("load", () => {
 
   const pantalla = document.getElementById("pantallaCarga");
   const porcentaje = document.getElementById("porcentaje");
+
   const images = document.images;
-  const total = images.length || 1;
+  const total = images.length;
   let loaded = 0;
 
   function actualizar() {
@@ -1190,12 +1191,14 @@ window.addEventListener("load", () => {
     }, 300);
   }
 
-  if (images.length === 0) {
+  if (total === 0) {
     finishLoading();
     return;
   }
 
-  images.forEach(img => {
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i];
+
     if (img.complete) {
       loaded++;
       actualizar();
@@ -1212,12 +1215,10 @@ window.addEventListener("load", () => {
         if (loaded >= total) finishLoading();
       });
     }
-  });
+  }
 
-  // por si todo ya estaba cargado
   if (loaded >= total) finishLoading();
 });
-</script>
 
 </body>
 </html>
