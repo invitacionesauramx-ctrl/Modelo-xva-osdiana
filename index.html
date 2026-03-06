@@ -580,6 +580,8 @@ animation:cargarBarra 3s linear forwards;
 50%{opacity:1}
 100%{opacity:.6}
 }
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 </style>
 </head>
 
@@ -721,8 +723,10 @@ Preparando tu invitación...
   Ver QR
 </button>
 
-<a id="btnCalendario" href="#" target="_blank">
-  Agregar al calendario
+<a id="btnCalendario"
+href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=XV+Diana&dates=20261224T220000/20261225T020000&details=Fiesta+de+XV+Diana&location=Salón+de+Eventos"
+target="_blank">
+Agregar al calendario
 </a>
 
   <!-- Contenedor oculto para el QR -->
@@ -1035,21 +1039,22 @@ const imgQR = document.getElementById("imagenQR");
 
 if(btnQR){
 
-btnQR.addEventListener("click", () => {
+  btnQR.addEventListener("click", () => {
 
-const urlInvitacion = window.location.href;
+    const urlInvitacion = window.location.href;
 
-const qr = new QRious({
-  value: urlInvitacion,
-  size: 180
-});
+    const qr = new QRious({
+      value: urlInvitacion,
+      size: 180
+    });
 
-imgQR.src = qr.toDataURL();
+    imgQR.src = qr.toDataURL();
 
-if(contQR.style.display === "block"){
-  contQR.style.display = "none";
-}else{
-  contQR.style.display = "block";
+    contQR.style.display =
+    contQR.style.display === "none" ? "block" : "none";
+
+  });
+
 }
 // Calendario
 const btnCalendario = document.getElementById("btnCalendario");
