@@ -8,10 +8,10 @@
 
 <style>
 
-html:not(.loaded) body {
+/* html:not(.loaded) body {
   opacity: 0;
   visibility: hidden;
-}
+} */
 
 *{
   margin:0;
@@ -1167,6 +1167,7 @@ animarLoader();
 
 window.addEventListener("load", () => {
   document.documentElement.classList.add("loaded");
+});
 
   const pantalla = document.getElementById("pantallaCarga");
   const porcentaje = document.getElementById("porcentaje");
