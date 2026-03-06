@@ -557,6 +557,11 @@ animation:brilloTexto 4s linear infinite;
   letter-spacing:1px;
   animation:brilloTexto 4s linear infinite;
 }
+
+#btnIniciar{
+  z-index: 100000;
+  animation: latido 2s infinite;
+}
 </style>
 </head>
 
@@ -564,6 +569,7 @@ animation:brilloTexto 4s linear infinite;
 
 <!-- PRELOADER ELEGANTE -->
 <div id="preloader">
+<button id="btnIniciar" style="display:none; margin-top:20px; padding:10px 25px; background:linear-gradient(145deg,#fff6b7,#ffd700,#d4af37,#b8960c); color:#fff; font-size:18px; border:none; border-radius:10px; cursor:pointer;">Iniciar</button>
   <canvas id="preloaderParticles"></canvas>
   <div class="loader">
     <div class="barra">
@@ -1115,11 +1121,8 @@ function actualizarProgreso(){
   porcentaje.innerText = pct + "%";
 
   if(cargadas === total){
-    setTimeout(()=>{
-      preloader.style.transition="opacity 0.6s ease";
-      preloader.style.opacity = 0;
-      setTimeout(()=>preloader.style.display="none",600);
-    },400);
+    btnIniciar.style.display = "block";
+    porcentaje.innerText = "Listo!";
   }
 }
 
@@ -1131,7 +1134,13 @@ for(let i=0;i<total;i++){
     imagenes[i].addEventListener("error", actualizarProgreso);
   }
 }
-</script>
+
+// ================= EVENTO BOTÓN INICIAR =================
+btnIniciar.addEventListener("click", () => {
+  preloader.style.transition = "opacity 0.6s ease";
+  preloader.style.opacity = 0;
+  setTimeout(() => preloader.style.display = "none", 600);
+});
 
 </body>
 </html>
