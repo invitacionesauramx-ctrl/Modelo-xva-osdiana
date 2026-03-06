@@ -494,10 +494,85 @@ animation:brilloTexto 4s linear infinite;
 100%{background-position:300%}
 }
 
+/* PRELOADER ELEGANTE */
+#preloader {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:99999;
+  flex-direction: column;
+  color:#d4af37;
+  font-family: 'Great Vibes', cursive;
+  overflow: hidden;
+}
+
+#preloader canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:0;
+}
+
+.loader {
+  position: relative;
+  z-index:1;
+  text-align:center;
+}
+
+.loader .barra {
+  width:300px;
+  height:20px;
+  border-radius:10px;
+  background:rgba(212,175,55,0.2);
+  overflow:hidden;
+  margin-bottom:15px;
+  box-shadow: 0 0 15px rgba(212,175,55,0.5);
+}
+
+.loader .progreso {
+  width:0%;
+  height:100%;
+  background: linear-gradient(145deg,#fff6b7,#ffd700,#d4af37,#b8960c);
+  transition: width 0.3s ease;
+}
+
+.loader .porcentaje{
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:10px;
+  text-shadow: 0 0 6px rgba(212,175,55,0.7);
+}
+
+.loader .texto-preloader{
+  font-size:22px;
+  text-align:center;
+  letter-spacing:1px;
+  animation:brilloTexto 4s linear infinite;
+}
 </style>
 </head>
 
 <body>
+
+<!-- PRELOADER ELEGANTE -->
+<div id="preloader">
+  <canvas id="preloaderParticles"></canvas>
+  <div class="loader">
+    <div class="barra">
+      <div class="progreso" id="barraProgreso"></div>
+    </div>
+    <div class="porcentaje" id="porcentaje">0%</div>
+    <div class="texto-preloader">Cargando Invitación...</div>
+  </div>
+</div>
 
 <div class="contenedor">
 
@@ -984,6 +1059,78 @@ function cerrarPassword(){
 document.getElementById("popupPassword").style.display="none";
 }
 
+</script>
+
+<script>
+// ================= PARTICULAS PRELOADER =================
+const canvas = document.getElementById('preloaderParticles');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+let particles = [];
+for(let i=0;i<60;i++){
+  particles.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    dx: (Math.random()-0.5)*1.2,
+    dy: (Math.random()-0.5)*1.2,
+    r: Math.random()*2+1,
+    a: Math.random()
+  });
+}
+
+function drawParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach((p,i)=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,215,0,${p.a})`;
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = "rgba(255,223,0,0.8)";
+    ctx.fill();
+    p.x+=p.dx; p.y+=p.dy;
+    if(p.x<0||p.x>canvas.width)p.dx*=-1;
+    if(p.y<0||p.y>canvas.height)p.dy*=-1;
+  });
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+// ================= PROGRESO DE CARGA =================
+const imagenes = document.images;
+const total = imagenes.length;
+let cargadas = 0;
+
+const barra = document.getElementById("barraProgreso");
+const porcentaje = document.getElementById("porcentaje");
+const preloader = document.getElementById("preloader");
+
+function actualizarProgreso(){
+  cargadas++;
+  const pct = Math.round((cargadas / total) * 100);
+  barra.style.width = pct + "%";
+  porcentaje.innerText = pct + "%";
+
+  if(cargadas === total){
+    setTimeout(()=>{
+      preloader.style.transition="opacity 0.6s ease";
+      preloader.style.opacity = 0;
+      setTimeout(()=>preloader.style.display="none",600);
+    },400);
+  }
+}
+
+for(let i=0;i<total;i++){
+  if(imagenes[i].complete){
+    actualizarProgreso();
+  }else{
+    imagenes[i].addEventListener("load", actualizarProgreso);
+    imagenes[i].addEventListener("error", actualizarProgreso);
+  }
+}
 </script>
 
 </body>
