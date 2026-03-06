@@ -7,12 +7,6 @@
 <title>Invitación Digital</title>
 
 <style>
-
-/* html:not(.loaded) body {
-  opacity: 0;
-  visibility: hidden;
-} */
-
 *{
   margin:0;
   padding:0;
@@ -604,7 +598,9 @@ animation:cargarBarra 3s linear forwards;
 XV Diana
 </h1>
 
-<p class="loader-texto" id="porcentaje">Cargando... 0%</p>
+<p class="loader-texto">
+Preparando tu invitación...
+</p>
 
 <div class="barra">
 <div class="progreso"></div>
@@ -857,11 +853,6 @@ const c1=document.getElementById("particulas");
 const x1=c1.getContext("2d");
 function rs1(){c1.width=c1.offsetWidth;c1.height=c1.offsetHeight}
 rs1();addEventListener("resize",rs1);
-const img1 = document.querySelector(".bloque-particulas img");
-
-if (img1) {
-  img1.onload = () => rs1();
-}
 
 let p1=[];
 for(let i=0;i<40;i++)p1.push({x:Math.random()*c1.width,y:Math.random()*c1.height,dx:(Math.random()-.5)*.6,dy:(Math.random()-.5)*.6,r:Math.random()*2+1,a:Math.random()});
@@ -1111,6 +1102,25 @@ document.getElementById("popupPassword").style.display="none";
 
 </script>
 
+<script>
+
+window.addEventListener("load",()=>{
+
+const pantalla = document.getElementById("pantallaCarga");
+
+setTimeout(()=>{
+
+pantalla.style.opacity="0";
+
+setTimeout(()=>{
+pantalla.style.display="none";
+},800);
+
+},2500);
+
+});
+
+</script>
 
 <script>
 
@@ -1165,59 +1175,7 @@ requestAnimationFrame(animarLoader);
 
 animarLoader();
 
-window.addEventListener("load", () => {
-  document.documentElement.classList.add("loaded");
+</script>
 
-  const pantalla = document.getElementById("pantallaCarga");
-  const porcentaje = document.getElementById("porcentaje");
-
-  const images = document.images;
-  const total = images.length;
-  let loaded = 0;
-
-  function actualizar() {
-    const p = Math.round((loaded / total) * 100);
-    porcentaje.textContent = `Cargando... ${p}%`;
-  }
-
-  function finishLoading() {
-    setTimeout(() => {
-      porcentaje.textContent = "Listo";
-      pantalla.style.opacity = "0";
-
-      setTimeout(() => {
-        pantalla.style.display = "none";
-      }, 600);
-    }, 300);
-  }
-
-  if (total === 0) {
-    finishLoading();
-    return;
-  }
-
-  for (let i = 0; i < images.length; i++) {
-    const img = images[i];
-
-    if (img.complete) {
-      loaded++;
-      actualizar();
-    } else {
-      img.addEventListener("load", () => {
-        loaded++;
-        actualizar();
-        if (loaded >= total) finishLoading();
-      });
-
-      img.addEventListener("error", () => {
-        loaded++;
-        actualizar();
-        if (loaded >= total) finishLoading();
-      });
-    }
-  }
-
-  if (loaded >= total) finishLoading();
-});
 </body>
 </html>
