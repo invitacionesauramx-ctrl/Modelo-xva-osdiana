@@ -859,6 +859,11 @@ const c1=document.getElementById("particulas");
 const x1=c1.getContext("2d");
 function rs1(){c1.width=c1.offsetWidth;c1.height=c1.offsetHeight}
 rs1();addEventListener("resize",rs1);
+const img1 = document.querySelector(".bloque-particulas img");
+
+if (img1) {
+  img1.onload = () => rs1();
+}
 
 let p1=[];
 for(let i=0;i<40;i++)p1.push({x:Math.random()*c1.width,y:Math.random()*c1.height,dx:(Math.random()-.5)*.6,dy:(Math.random()-.5)*.6,r:Math.random()*2+1,a:Math.random()});
@@ -1182,7 +1187,40 @@ requestAnimationFrame(animarLoader);
 animarLoader();
 
 window.addEventListener("load", () => {
-  document.documentElement.classList.add("loaded");
+  const pantalla = document.getElementById("pantallaCarga");
+
+  // Esperar a que todas las imágenes estén cargadas
+  const images = document.images;
+  let loaded = 0;
+
+  function check() {
+    loaded++;
+    if (loaded >= images.length) {
+      finishLoading();
+    }
+  }
+
+  function finishLoading() {
+    setTimeout(() => {
+      pantalla.style.opacity = "0";
+      setTimeout(() => {
+        pantalla.style.display = "none";
+      }, 600);
+    }, 500); // pequeño margen
+  }
+
+  if (images.length === 0) {
+    finishLoading();
+  } else {
+    for (let i = 0; i < images.length; i++) {
+      if (images[i].complete) {
+        check();
+      } else {
+        images[i].addEventListener("load", check);
+        images[i].addEventListener("error", check);
+      }
+    }
+  }
 });
 
 </script>
