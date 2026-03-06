@@ -1171,21 +1171,12 @@ window.addEventListener("load", () => {
   const pantalla = document.getElementById("pantallaCarga");
   const porcentaje = document.getElementById("porcentaje");
   const images = document.images;
-  let loaded = 0;
   const total = images.length || 1;
+  let loaded = 0;
 
   function actualizar() {
-    const progreso = Math.round((loaded / total) * 100);
-    porcentaje.textContent = `Cargando... ${progreso}%`;
-  }
-
-  function check() {
-    loaded++;
-    actualizar();
-
-    if (loaded >= total) {
-      finishLoading();
-    }
+    const p = Math.round((loaded / total) * 100);
+    porcentaje.textContent = `Cargando... ${p}%`;
   }
 
   function finishLoading() {
@@ -1201,10 +1192,20 @@ window.addEventListener("load", () => {
 
   for (let i = 0; i < images.length; i++) {
     if (images[i].complete) {
-      check();
+      loaded++;
+      actualizar();
     } else {
-      images[i].addEventListener("load", check);
-      images[i].addEventListener("error", check);
+      images[i].addEventListener("load", () => {
+        loaded++;
+        actualizar();
+        if (loaded >= total) finishLoading();
+      });
+
+      images[i].addEventListener("error", () => {
+        loaded++;
+        actualizar();
+        if (loaded >= total) finishLoading();
+      });
     }
   }
 
