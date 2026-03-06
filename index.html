@@ -567,14 +567,7 @@ margin:auto;
 height:100%;
 width:0%;
 background:linear-gradient(90deg,#ffd700,#d4af37,#ffd700);
-.progreso{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#ffd700,#d4af37,#ffd700);
-}
-@keyframes cargarBarra{
-0%{width:0%}
-100%{width:100%}
+transition:width .3s;
 }
 
 @keyframes brilloNombre{
@@ -1180,6 +1173,7 @@ let progreso = 0;
 
 const barra = document.getElementById("barraProgreso");
 const texto = document.getElementById("porcentajeCarga");
+const pantalla = document.getElementById("pantallaCarga");
 
 const intervalo = setInterval(()=>{
 
@@ -1193,12 +1187,18 @@ if(progreso >= 100){
 clearInterval(intervalo);
 
 setTimeout(()=>{
-document.getElementById("pantallaCarga").style.display="none";
-},500);
+pantalla.style.opacity="0";
+pantalla.style.transition="opacity 0.8s";
+
+setTimeout(()=>{
+pantalla.style.display="none";
+},800);
+
+},300);
 
 }
 
-},30);
+},25);
 
 </script>
 
