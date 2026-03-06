@@ -496,7 +496,7 @@ animation:brilloTexto 4s linear infinite;
 
 /* PRELOADER ELEGANTE */
 #preloader {
-  position: fixed;
+  position: absolute; /* antes era fixed */
   top:0;
   left:0;
   width:100%;
@@ -505,13 +505,12 @@ animation:brilloTexto 4s linear infinite;
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:99999;
+  z-index:9999; /* suficiente para estar arriba del bloque 1 */
   flex-direction: column;
   color:#d4af37;
   font-family: 'Great Vibes', cursive;
   overflow: hidden;
 }
-
 #preloader canvas{
   position:absolute;
   inset:0;
@@ -567,6 +566,9 @@ animation:brilloTexto 4s linear infinite;
 
 <body>
 
+<div class="contenedor">
+
+<div class="bloque bloque-particulas bloque-fecha">
 <!-- PRELOADER ELEGANTE -->
 <div id="preloader">
 <button id="btnIniciar" style="display:none; margin-top:20px; padding:10px 25px; background:linear-gradient(145deg,#fff6b7,#ffd700,#d4af37,#b8960c); color:#fff; font-size:18px; border:none; border-radius:10px; cursor:pointer;">Iniciar</button>
@@ -580,9 +582,6 @@ animation:brilloTexto 4s linear infinite;
   </div>
 </div>
 
-<div class="contenedor">
-
-<div class="bloque bloque-particulas bloque-fecha">
 <img src="bloque1.webp" loading="lazy">
 
   <div class="fecha-evento">
