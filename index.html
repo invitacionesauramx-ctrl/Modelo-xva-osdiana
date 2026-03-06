@@ -23,12 +23,6 @@ body{
   perspective:1200px;
 }
 
-body{
-  background:#000;
-  display:flex;
-  justify-content:center;
-}
-
 .bloque img{
   width:100%;
   display:block;
@@ -521,8 +515,6 @@ canvas{
   </div>
 </div>
 
-</div>
-
 <div class="bloque bloque-fotos">
 
 <div style="padding:30px;background:#fff;text-align:center;">
@@ -554,9 +546,6 @@ Descargar fotos
 </div>
 
 </div>
-
-</div> <!-- contenedor -->
-
 <audio id="musica" preload="auto" loop>
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
@@ -727,17 +716,6 @@ function toggleDatos(){
   panel.classList.toggle("activo");
 }
 
-// QR para subir fotos
-const qrUpload = document.getElementById("qrUpload");
-
-const qrFotos = new QRious({
-  value: "https://www.dropbox.com/scl/fo/lx2ieq96b7l40mcm6id88/AFyt2tGbV0OTUNauFolNGP0?rlkey=4krboyxfuo8kdbr2bawyn2g5d&st=sa8o2sm4&dl=0",
-  size: 180
-});
-
-qrUpload.src = qrFotos.toDataURL();
-
-
 // contraseña descarga fotos
 document.getElementById("btnDescargar").addEventListener("click",()=>{
 
@@ -795,31 +773,60 @@ document.getElementById("formConfirmacion").addEventListener("submit", async (e)
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
 <script>
-  // QR
-  const btnQR = document.getElementById("btnQR");
-  const contQR = document.getElementById("contenedorQR");
-  const imgQR = document.getElementById("imagenQR");
 
-  btnQR.addEventListener("click", () => {
-    const urlInvitacion = window.location.href; // tu invitación
-    const qr = new QRious({ value: urlInvitacion, size: 180 });
-    imgQR.src = qr.toDataURL();
-    contQR.style.display = contQR.style.display === "none" ? "block" : "none";
+const qrUpload = document.getElementById("qrUpload");
+
+const qrFotos = new QRious({
+  value: "https://www.dropbox.com/scl/fo/lx2ieq96b7l40mcm6id88/AFyt2tGbV0OTUNauFolNGP0?rlkey=4krboyxfuo8kdbr2bawyn2g5d&st=sa8o2sm4&dl=0",
+  size: 180
+});
+
+qrUpload.src = qrFotos.toDataURL();
+
+
+// QR invitación
+const btnQR = document.getElementById("btnQR");
+const contQR = document.getElementById("contenedorQR");
+const imgQR = document.getElementById("imagenQR");
+
+btnQR.addEventListener("click", () => {
+
+  const urlInvitacion = window.location.href;
+
+  const qr = new QRious({
+    value: urlInvitacion,
+    size: 180
   });
 
-  // Calendario
-  const btnCalendario = document.getElementById("btnCalendario");
-  btnCalendario.addEventListener("click", () => {
-    const start = "20261217T170000"; // fecha del evento
-    const end = "20261217T230000";   // hora de fin (aprox)
-    const title = "XV de Lupita";
-    const details = "Celebración del XV de Lupita";
-    const location = "Dirección del evento";
+  imgQR.src = qr.toDataURL();
 
-    const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${start}/${end}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}`;
-    btnCalendario.href = url;
-  });
+  contQR.style.display =
+    contQR.style.display === "none" ? "block" : "none";
+
+});
+
+
+// Calendario
+const btnCalendario = document.getElementById("btnCalendario");
+
+btnCalendario.addEventListener("click", () => {
+
+  const start = "20261224T170000";
+  const end = "20261224T230000";
+
+  const title = "XV de Lupita";
+  const details = "Celebración del XV de Lupita";
+  const location = "Dirección del evento";
+
+  const url =
+    `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${start}/${end}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}`;
+
+  btnCalendario.href = url;
+
+});
+
 </script>
 
 </body>
