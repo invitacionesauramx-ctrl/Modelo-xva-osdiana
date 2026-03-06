@@ -1187,31 +1187,35 @@ window.addEventListener("load", () => {
       setTimeout(() => {
         pantalla.style.display = "none";
       }, 600);
-    }, 500);
+    }, 300);
   }
 
-  for (let i = 0; i < images.length; i++) {
-    if (images[i].complete) {
+  if (images.length === 0) {
+    finishLoading();
+    return;
+  }
+
+  images.forEach(img => {
+    if (img.complete) {
       loaded++;
       actualizar();
     } else {
-      images[i].addEventListener("load", () => {
+      img.addEventListener("load", () => {
         loaded++;
         actualizar();
         if (loaded >= total) finishLoading();
       });
 
-      images[i].addEventListener("error", () => {
+      img.addEventListener("error", () => {
         loaded++;
         actualizar();
         if (loaded >= total) finishLoading();
       });
     }
-  }
+  });
 
-  if (images.length === 0) {
-    finishLoading();
-  }
+  // por si todo ya estaba cargado
+  if (loaded >= total) finishLoading();
 });
 </script>
 
