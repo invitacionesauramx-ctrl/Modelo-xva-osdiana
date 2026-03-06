@@ -647,10 +647,12 @@ Descargar fotos
 
     <div class="botones">
       <button onclick="verificarPassword()">Entrar</button>
-      <button onclick="cerrarPopup()">Cancelar</button>
+     <button onclick="cerrarPassword()">Cancelar</button>
     </div>
 
-    <p id="mensajeErrorPass">Contraseña incorrecta</p>
+    <p id="mensajeErrorPass" style="display:none;color:red;">
+Contraseña incorrecta
+</p>
 
   </div>
 </div>
@@ -896,10 +898,6 @@ const btnQR = document.getElementById("btnQR");
 const contQR = document.getElementById("contenedorQR");
 const imgQR = document.getElementById("imagenQR");
 
-const btnQR = document.getElementById("btnQR");
-const contQR = document.getElementById("contenedorQR");
-const imgQR = document.getElementById("imagenQR");
-
 if(btnQR){
 
 btnQR.addEventListener("click", () => {
@@ -919,7 +917,6 @@ contQR.style.display === "none" ? "block" : "none";
 });
 
 }
-
 
 // Calendario
 const btnCalendario = document.getElementById("btnCalendario");
