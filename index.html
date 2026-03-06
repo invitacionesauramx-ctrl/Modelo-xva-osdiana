@@ -1113,25 +1113,6 @@ document.getElementById("popupPassword").style.display="none";
 
 </script>
 
-<script>
-
-window.addEventListener("load",()=>{
-
-const pantalla = document.getElementById("pantallaCarga");
-
-setTimeout(()=>{
-
-pantalla.style.opacity="0";
-
-setTimeout(()=>{
-pantalla.style.display="none";
-},800);
-
-},2500);
-
-});
-
-</script>
 
 <script>
 
@@ -1187,9 +1168,9 @@ requestAnimationFrame(animarLoader);
 animarLoader();
 
 window.addEventListener("load", () => {
-  const pantalla = document.getElementById("pantallaCarga");
+  document.documentElement.classList.add("loaded");
 
-  // Esperar a que todas las imágenes estén cargadas
+  const pantalla = document.getElementById("pantallaCarga");
   const images = document.images;
   let loaded = 0;
 
@@ -1206,7 +1187,7 @@ window.addEventListener("load", () => {
       setTimeout(() => {
         pantalla.style.display = "none";
       }, 600);
-    }, 500); // pequeño margen
+    }, 500);
   }
 
   if (images.length === 0) {
